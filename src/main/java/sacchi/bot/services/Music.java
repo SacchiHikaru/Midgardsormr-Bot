@@ -89,19 +89,23 @@ public class Music{
 		BufferedWriter buffer = null;
 		PrintWriter print = null;
 		String[] split = new String [4];
-		try{
-			writer = new FileWriter("songList.txt",true);
-			buffer = new BufferedWriter(writer);
-			print = new PrintWriter(buffer);
-			split = message.getContent().replace("!Music add ", "").split("-----");
-			print.print("\n"+split[0]+"-----"+split[1]+"-----"+split[2]+"-----"+split[3]);
-			songList.add(new Song(split[0], split[1], split[2], split[3]));
-			return "Song added.";
-		} catch (IOException e){
-			throw new RuntimeException("Failed to add song.");
-		} finally {
-			if(print != null)
-			print.close();
+		if(message.getAuthor().getRoles(message.getChannelReceiver().getServer()).contains(message.getChannelReceiver().getServer().getRoleById("214097524955283456"))){
+			try{
+				writer = new FileWriter("songList.txt",true);
+				buffer = new BufferedWriter(writer);
+				print = new PrintWriter(buffer);
+				split = message.getContent().replace("!Music add ", "").split("-----");
+				print.print("\n"+split[0]+"-----"+split[1]+"-----"+split[2]+"-----"+split[3]);
+				songList.add(new Song(split[0], split[1], split[2], split[3]));
+				return "Song added.";
+			} catch (IOException e){
+				throw new RuntimeException("Failed to add song.");
+			} finally {
+				if(print != null)
+					print.close();
+			}
+		} else {
+			return "You do not have the permission to add songs.";
 		}
 	}
 }

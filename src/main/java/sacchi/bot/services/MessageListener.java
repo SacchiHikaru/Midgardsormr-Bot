@@ -7,7 +7,6 @@ import sacchi.bot.entities.MidgardsormrBot;
 
 public class MessageListener extends MidgardsormrBot implements MessageCreateListener{
         public void onMessageCreate(DiscordAPI api, Message message){	
-		
             if(message.getContent().equalsIgnoreCase("!poem")){
                  message.reply("*Thy life is a riddle, to bear rapture and sorrow."
                       + "\nTo listen, to suffer, to entrust unto tomorrow."
