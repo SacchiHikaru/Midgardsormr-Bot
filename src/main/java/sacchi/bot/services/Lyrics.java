@@ -14,7 +14,7 @@ public class Lyrics{
     public static String lyricsCheck(Message message, Music music){
         for(int i = 0;i < music.songList.size();i++){
             if(music.songList.get(i).getName().toLowerCase().contains(message.getContent().toLowerCase().replace("!lyrics ", ""))){
-                if(music.songList.get(i).getLyrics().equals("")){
+                if(music.songList.get(i).getLyrics().equalsIgnoreCase("none")){
                     return "This song has no lyrics.";
                 } else {
                     return music.songList.get(i).getName() + "'s Lyrics: " + music.songList.get(i).getLyrics();
