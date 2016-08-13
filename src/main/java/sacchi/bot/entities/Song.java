@@ -4,15 +4,17 @@ public class Song {
 	private String name;
 	private String description;
 	private String link;
+                        private String lyrics;
 	
 	public Song(){
 		
 	}
 	
-	public Song(String name, String description, String link){
+	public Song(String name, String description, String link, String lyrics){
 		this.name = name;
 		this.description = description;
 		this.link = link;
+                                                this.lyrics = lyrics;
 	}
 	
 	public void setName(String name){
@@ -22,6 +24,14 @@ public class Song {
 	public String getName(){
 		return name;
 	}
+
+    public String getLyrics() {
+        return lyrics;
+    }
+
+    public void setLyrics(String lyrics) {
+        this.lyrics = lyrics;
+    }
 	
 	public void setDescription(String description){
 		this.description=description;

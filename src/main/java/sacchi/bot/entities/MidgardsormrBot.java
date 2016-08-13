@@ -3,11 +3,12 @@ package sacchi.bot.entities;
 import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
 import sacchi.bot.services.MessageListener;
+import sacchi.bot.services.Music;
 
 public class MidgardsormrBot {
-	
+	public Music music = new Music();
+        
 	public MidgardsormrBot(){
-		
 	}
 	
 	public static void connect(){
