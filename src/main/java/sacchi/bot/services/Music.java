@@ -4,8 +4,11 @@ import de.btobastian.javacord.entities.message.Message;
 import sacchi.bot.entities.Song;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Music{
@@ -41,10 +44,18 @@ public class Music{
 			message.reply("Usage: !Music [songname]"
 					+ "\nCan also use !Music List for all song names and descriptions"
 					+ "\nAnd !Music random for a random song.");
-		} else if(message.getContent().toLowerCase().contains("random")){
+		} else if(message.getContent().equalsIgnoreCase("!music random")){
 			message.reply(musicRandom(message));
-		} else if (message.getContent().toLowerCase().contains("list")) {
+		} else if (message.getContent().equalsIgnoreCase("!music list")) {
 			musicList(message);
+		} else if(message.getContent().startsWith("!Music add")){
+			message.reply(addSong(message));
+		} else if(message.getContent().toLowerCase().contains("!music add")){
+			message.reply("Due to code limitations, this command is case-sensitive."
+					+ "\nPlease use ``!Music add [song name]-----[song description]-----[song link]------[song lyrics]`` to properly add a song to the list."
+					+ "\nBefore you ask - that is **FIVE** dashes (-). "
+					+ "If the song has no lyrics, please input ``none``."
+					+ "\nYes, the programmer is bad, both him and I are very aware of it.");
 		} else {
 			message.reply(musicSpecific(message));
 		}
@@ -71,5 +82,26 @@ public class Music{
 		for(int i = 0; i < songList.size(); i++){
 			message.reply("\n" + songList.get(i).getName());
 		}
-	}		
+	}
+	
+	public String addSong(Message message){
+		FileWriter writer = null; 
+		BufferedWriter buffer = null;
+		PrintWriter print = null;
+		String[] split = new String [4];
+		try{
+			writer = new FileWriter("songList.txt",true);
+			buffer = new BufferedWriter(writer);
+			print = new PrintWriter(buffer);
+			split = message.getContent().replace("!Music add ", "").split("-----");
+			print.print("\n"+split[0]+"-----"+split[1]+"-----"+split[2]+"-----"+split[3]);
+			songList.add(new Song(split[0], split[1], split[2], split[3]));
+			return "Song added.";
+		} catch (IOException e){
+			throw new RuntimeException("Failed to add song.");
+		} finally {
+			if(print != null)
+			print.close();
+		}
+	}
 }
