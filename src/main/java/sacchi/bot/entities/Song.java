@@ -1,20 +1,22 @@
 package sacchi.bot.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Song {
 	private String name;
 	private String description;
-	private String link;
-                        private String lyrics;
+	@SerializedName("song_url") private String songURL;
+    @SerializedName("lyrics_url") private String lyricsURL;
 	
 	public Song(){
 		
 	}
 	
-	public Song(String name, String description, String link, String lyrics){
+	public Song(String name, String description, String songURL, String lyricsURL){
 		this.name = name;
 		this.description = description;
-		this.link = link;
-                                                this.lyrics = lyrics;
+		this.songURL = songURL;
+		this.lyricsURL = lyricsURL;
 	}
 	
 	public void setName(String name){
@@ -26,11 +28,11 @@ public class Song {
 	}
 
     public String getLyrics() {
-        return lyrics;
+        return lyricsURL;
     }
 
-    public void setLyrics(String lyrics) {
-        this.lyrics = lyrics;
+    public void setLyrics(String lyricsURL) {
+        this.lyricsURL = lyricsURL;
     }
 	
 	public void setDescription(String description){
@@ -40,17 +42,17 @@ public class Song {
 	public String getDescription(){
 		return description;
 		
-	}public void setLink(String link){
-		this.link=link;
+	}public void setLink(String songURL){
+		this.songURL=songURL;
 	}
 	
 	public String getLink(){
-		return link;
+		return songURL;
 	}
 	
 	@Override
 	public String toString(){
-		return "Song: " + name + "\nDescription: " + description + "\nLink: " + link;
+		return "Song: " + name + "\nDescription: " + description + "\nLink: " + songURL;
 	}
 	
 

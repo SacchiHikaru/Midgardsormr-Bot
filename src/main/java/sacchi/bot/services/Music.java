@@ -3,38 +3,34 @@ package sacchi.bot.services;
 import de.btobastian.javacord.entities.message.Message;
 import sacchi.bot.entities.Song;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Music{
 	ArrayList<Song> songList = new ArrayList<Song>(0);
-	BufferedReader reader = null;
+	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	String fileData = null;
+	Song[] songs = null;
 	public Music() {
 		try{
-			reader = new BufferedReader(new FileReader("songList.txt"));
-			String[] split = new String[4];
-			String line = reader.readLine();
-			while(line != null){
-				split = line.split("-----");
-				songList.add(new Song(split[0], split[1], split[2], split[3]));
-				line = reader.readLine();
+			fileData = new String(Files.readAllBytes(Paths.get("songList.json")), StandardCharsets.UTF_8);
+			songs = gson.fromJson(fileData, Song[].class);
+			for(int i = 0; i < songs.length; i++){
+				songList.add(songs[i]);
 			}
-			reader.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Failed to do stuff.");
 		} finally {
-			if (reader != null)
-				try {
-					reader.close();
-				} catch (IOException s) {
-					
-				}
+			
 		}
 	}
 	
@@ -43,7 +39,9 @@ public class Music{
 		|| message.getContent().equalsIgnoreCase("!music ")){
 			message.reply("Usage: !Music [songname]"
 					+ "\nCan also use !Music List for all song names and descriptions"
-					+ "\nAnd !Music random for a random song.");
+					+ "\nAnd !Music random for a random song."
+					+ "\nIf you have the necessary permissions, you can use !Music add to add new songs."
+					+ "\nInstructions on how to add songs are given when using !music add (all lowercase).");
 		} else if(message.getContent().equalsIgnoreCase("!music random")){
 			message.reply(musicRandom(message));
 		} else if (message.getContent().equalsIgnoreCase("!music list")) {
@@ -85,24 +83,27 @@ public class Music{
 	}
 	
 	public String addSong(Message message){
-		FileWriter writer = null; 
-		BufferedWriter buffer = null;
-		PrintWriter print = null;
+		FileWriter writer = null;
+		File file = new File("songList.json");
 		String[] split = new String [4];
 		if(message.getAuthor().getRoles(message.getChannelReceiver().getServer()).contains(message.getChannelReceiver().getServer().getRoleById("214097524955283456"))){
 			try{
-				writer = new FileWriter("songList.txt",true);
-				buffer = new BufferedWriter(writer);
-				print = new PrintWriter(buffer);
+				writer = new FileWriter(file,false);
 				split = message.getContent().replace("!Music add ", "").split("-----");
-				print.print("\n"+split[0]+"-----"+split[1]+"-----"+split[2]+"-----"+split[3]);
-				songList.add(new Song(split[0], split[1], split[2], split[3]));
+				Song addedSong = new Song(split[0], split[1], split[2], split[3]);
+				songList.add(addedSong);
+				writer.write(gson.toJson(songList));
 				return "Song added.";
 			} catch (IOException e){
 				throw new RuntimeException("Failed to add song.");
 			} finally {
-				if(print != null)
-					print.close();
+				try {
+					if(writer != null)
+						writer.flush();
+						writer.close();
+				} catch (IOException e){
+					
+				}
 			}
 		} else {
 			return "You do not have the permission to add songs.";
