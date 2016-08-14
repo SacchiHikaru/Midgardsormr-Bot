@@ -50,9 +50,9 @@ public class Music{
 			message.reply(addSong(message));
 		} else if(message.getContent().toLowerCase().contains("!music add")){
 			message.reply("Due to code limitations, this command is case-sensitive."
-					+ "\nPlease use ``!Music add [song name]-----[song description]-----[song link]------[song lyrics]`` to properly add a song to the list."
-					+ "\nBefore you ask - that is **FIVE** dashes (-). "
-					+ "If the song has no lyrics, please input ``none``."
+					+ "\nPlease use ``!Music add [song name]-----[song description]-----[song link]------[pastebin link to song lyrics]`` to properly add a song to the list."
+					+ "\nBefore you ask - that is **FIVE** dashes (-). There are no spaces between the dashes and the info provided."
+					+ "\nIf the song has no lyrics, please input ``none``."
 					+ "\nYes, the programmer is bad, both him and I are very aware of it.");
 		} else {
 			message.reply(musicSpecific(message));
