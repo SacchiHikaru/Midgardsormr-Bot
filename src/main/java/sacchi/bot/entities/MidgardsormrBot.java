@@ -17,8 +17,9 @@ public class MidgardsormrBot{
 	
 	public static void connect(){
 		
-		DiscordAPI api = Javacord.getApi("MjEzMTY2MDYyNTA0NTA5NDQw.Co2d7A.BPkp8a7tcef3T3pTMGEfs2bC8Dc", true);
+		DiscordAPI api = Javacord.getApi("MjE0MTk2NTg0ODgyMTEwNDY0.CpFdqg.M5Beha_0ZhIjpinNQeAxgRG3V5Q", true);
 		api.connectBlocking();
+		api.setGame("with the WoL");
 		MessageListener listen = new MessageListener();
 		api.registerListener(listen);
 		

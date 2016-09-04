@@ -65,10 +65,9 @@ public class Music{
 	}
 	
 	public String musicSpecific(Message message){
-		System.out.println("Music Specific is on the line.");
-		message.getContent().toLowerCase().replace("!music ", "");
 		for(int i = 0; i < songList.size(); i++){
-			if(songList.get(i).getName().toLowerCase().contains(message.getContent().toLowerCase().replace("!music ", ""))){
+			if(songList.get(i).getName().toLowerCase().contains(message.getContent().toLowerCase().replace("!music ", "")) 
+			|| songList.get(i).getDescription().toLowerCase().contains(message.getContent().toLowerCase().replace("!music ", ""))){
 				return songList.get(i).toString();
 			}
 		}
@@ -76,9 +75,8 @@ public class Music{
 	}
 	
 	public void musicList(Message message){
-		message.reply("The current songs are: ");
 		for(int i = 0; i < songList.size(); i++){
-			message.reply("\n" + songList.get(i).getName());
+			message.reply("\n" + songList.get(i).getName() + " --- " + songList.get(i).getDescription());
 		}
 	}
 	

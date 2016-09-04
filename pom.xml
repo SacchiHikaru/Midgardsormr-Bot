@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.sacchi.bot</groupId>
   <artifactId>discordbot</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <name>Midgardsormr Bot</name>
   <description>Big Daddy Middy</description>
 
