@@ -80,7 +80,7 @@ public class Music {
 
 		String s = String.join(", ", songList.stream().map(x -> "\n" + x.getName() + " ----- " + x.getDescription())
 				.collect(Collectors.toList()));
-		message.reply(s);
+		message.reply(s.replace(",", ""));
 	}
 
 	public String addSong(Message message) {
