@@ -38,22 +38,15 @@ public class Music {
 
 	public void musicHandler(Message message) {
 		if (message.getContent().equalsIgnoreCase("!music") || message.getContent().equalsIgnoreCase("!music ")) {
-			message.reply("Usage: !Music [songname]" + "\nCan also use !Music List for all song names and descriptions"
-					+ "\nAnd !Music random for a random song."
-					+ "\nIf you have the necessary permissions, you can use !Music add to add new songs."
-					+ "\nInstructions on how to add songs are given when using !music add (all lowercase).");
+			message.reply(musicInstructions());
 		} else if (message.getContent().equalsIgnoreCase("!music random")) {
 			message.reply(musicRandom(message));
 		} else if (message.getContent().equalsIgnoreCase("!music list")) {
-			musicList(message);
+			message.reply(musicList(message));
 		} else if (message.getContent().startsWith("!Music add")) {
 			message.reply(addSong(message));
 		} else if (message.getContent().toLowerCase().contains("!music add")) {
-			message.reply("Due to code limitations, this command is case-sensitive."
-					+ "\nPlease use ``!Music add [song name]-----[song description]-----[song link]------[pastebin link to song lyrics]`` to properly add a song to the list."
-					+ "\nBefore you ask - that is **FIVE** dashes (-). There are no spaces between the dashes and the info provided."
-					+ "\nIf the song has no lyrics, please input ``none``."
-					+ "\nYes, the programmer is bad, both him and I are very aware of it.");
+			message.reply(musicAddInstructions());
 		} else {
 			message.reply(musicSpecific(message));
 		}
@@ -76,11 +69,11 @@ public class Music {
 		return "Could not find song.";
 	}
 
-	public void musicList(Message message) {
+	public String musicList(Message message) {
 
 		String s = String.join(", ", songList.stream().map(x -> "\n" + x.getName() + " ----- " + x.getDescription())
 				.collect(Collectors.toList()));
-		message.reply(s.replace(",", ""));
+		return s.replace(",", "");
 	}
 
 	public String addSong(Message message) {
@@ -110,5 +103,20 @@ public class Music {
 		} else {
 			return "You do not have the permission to add songs.";
 		}
+	}
+	
+	public String musicInstructions(){
+		return "Usage: !Music [songname]" + "\nCan also use !Music List for all song names and descriptions"
+				+ "\nAnd !Music random for a random song."
+				+ "\nIf you have the necessary permissions, you can use !Music add to add new songs."
+				+ "\nInstructions on how to add songs are given when using !music add (all lowercase).";
+	}
+	
+	public String musicAddInstructions(){
+		return "Due to code limitations, this command is case-sensitive."
+				+ "\nPlease use ``!Music add [song name]-----[song description]-----[song link]------[pastebin link to song lyrics]`` to properly add a song to the list."
+				+ "\nBefore you ask - that is **FIVE** dashes (-). There are no spaces between the dashes and the info provided."
+				+ "\nIf the song has no lyrics, please input ``none``."
+				+ "\nYes, the programmer is bad, both him and I are very aware of it.";
 	}
 }
